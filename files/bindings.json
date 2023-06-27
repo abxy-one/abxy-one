@@ -1,0 +1,98 @@
+{
+  "A_BUTTON": {
+    "Actions":{
+      "SINGLE_PRESS": {
+        "Bindings": ["B"]
+      },
+      "HOLD_PRESS": {
+        "Bindings": []
+      },
+      "RELEASE_PRESS": {
+        "Bindings": []
+      },
+      "DOUBLE_PRESS": {
+        "Bindings": []
+      }
+    },
+    "Settings": {
+      "HOLD_PRESS": {
+        "Duration": 0.5
+      },
+      "DOUBLE_PRESS": {
+        "Duration": 0.5
+      }
+    }
+  },
+  "B_BUTTON": {
+    "Actions":{
+      "SINGLE_PRESS": {
+        "Bindings": ["A"]
+      },
+      "HOLD_PRESS": {
+        "Bindings": []
+      },
+      "RELEASE_PRESS": {
+        "Bindings": []
+      },
+      "DOUBLE_PRESS": {
+        "Bindings": []
+      }
+    },
+    "Settings": {
+      "HOLD_PRESS": {
+        "Duration": 0.5
+      },
+      "DOUBLE_PRESS": {
+        "Duration": 0.5
+      }
+    }
+  },
+  "X_BUTTON": {
+    "Actions":{
+      "SINGLE_PRESS": {
+        "Bindings": ["X"]
+      },
+      "HOLD_PRESS": {
+        "Bindings": []
+      },
+      "RELEASE_PRESS": {
+        "Bindings": []
+      },
+      "DOUBLE_PRESS": {
+        "Bindings": []
+      }
+    },
+    "Settings": {
+      "HOLD_PRESS": {
+        "Duration": 0.5
+      },
+      "DOUBLE_PRESS": {
+        "Duration": 0.5
+      }
+    }
+  },
+  "Y_BUTTON": {
+    "Actions":{
+      "SINGLE_PRESS": {
+        "Bindings": ["Y"]
+      },
+      "HOLD_PRESS": {
+        "Bindings": []
+      },
+      "RELEASE_PRESS": {
+        "Bindings": []
+      },
+      "DOUBLE_PRESS": {
+        "Bindings": []
+      }
+    },
+    "Settings": {
+      "HOLD_PRESS": {
+        "Duration": 0.5
+      },
+      "DOUBLE_PRESS": {
+        "Duration": 0.5
+      }
+    }
+  }
+}
