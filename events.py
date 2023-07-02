@@ -21,10 +21,12 @@ class Events():
 
             self.device_list = {}
             self.axis_map = {
-                'left_stick_x': 0,
-                'left_stick_y': 0,
-                'right_stick_x': 0,
-                'right_stick_y': 0,
+                Consts.AXIS['LEFT_STICK_X']     :0,
+                Consts.AXIS['LEFT_STICK_Y']     :0,
+                Consts.AXIS['RIGHT_STICK_X']    :0,
+                Consts.AXIS['RIGHT_STICK_Y']    :0,
+                Consts.AXIS['LEFT_TRIGGER']     :0,
+                Consts.AXIS['RIGHT_TRIGGER']    :0
                 }
 
         except Exception as e:
@@ -42,6 +44,14 @@ class Events():
 
     def _dpad_event(self, hat, vg_driver):
         print(f'{__class__}._dpad_event(hat={hat}, vg_driver={vg_driver})')
+
+    def _joystick_axis_event(self, axis, value, cdevice, vg_driver):
+        print(f'{__class__}._jotstick_axis_event(axis={axis}, value={value}, cdevice={cdevice}, vg_driver={vg_driver})')
+
+        self.axis_map[axis] = value
+        self.device_list[cdevice] = self.axis_map
+
+        print(self.device_list)
 
     def run(self):
         try:
@@ -77,43 +87,30 @@ class Events():
                     elif event.type == sdl2.SDL_JOYAXISMOTION:
 
                         axis = event.jaxis.axis
-                        axis_value = sdl2.SDL_GameControllerGetAxis(
-                            sdl2.SDL_GameControllerFromInstanceID(cdevice),
-                            axis)
 
                         print(f'{__class__} axis: {axis} - cdevice:{cdevice}')
 
-                        # https://metacpan.org/pod/SDL2::gamecontroller#SDL_GameControllerAxis
-                        if axis == sdl2.SDL_CONTROLLER_AXIS_LEFTX:
-                            print(f'{__class__} left stick "X" axis_value: {axis_value} - cdevice:{cdevice}')
-                            self.axis_map['left_stick_x'] = axis_value
-                            self.device_list[cdevice] = self.axis_map
-
-                        if axis == sdl2.SDL_CONTROLLER_AXIS_LEFTY:
-                            print(f'{__class__} left stick "Y" axis_value: {axis_value} - cdevice:{cdevice}')
-                            self.axis_map['left_stick_y'] = axis_value
-                            self.device_list[cdevice] = self.axis_map
-
-                        if axis == sdl2.SDL_CONTROLLER_AXIS_RIGHTX:
-                            print(f'{__class__} right stick "X" axis_value: {axis_value} - cdevice:{cdevice}')
-                            self.axis_map['right_stick_x'] = axis_value
-                            self.device_list[cdevice] = self.axis_map
-
-                        if axis == sdl2.SDL_CONTROLLER_AXIS_RIGHTY:
-                            print(f'{__class__} right stick "Y" axis_value: {axis_value} - cdevice:{cdevice}')
-                            self.axis_map['right_stick_y'] = axis_value
-                            self.device_list[cdevice] = self.axis_map
-
-                        print(self.device_list)
+                        if axis == sdl2.SDL_CONTROLLER_AXIS_LEFTX \
+                            or axis == sdl2.SDL_CONTROLLER_AXIS_LEFTY \
+                            or axis == sdl2.SDL_CONTROLLER_AXIS_RIGHTX \
+                            or axis == sdl2.SDL_CONTROLLER_AXIS_RIGHTY \
+                            or axis == sdl2.SDL_CONTROLLER_AXIS_TRIGGERLEFT \
+                            or axis == sdl2.SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+                            self._joystick_axis_event(
+                                axis=axis,
+                                value=event.jaxis.value,
+                                cdevice=cdevice,
+                                vg_driver=virtual_driver
+                            )
 
                         # deadzone
                         left_deadzone = self.gamepad_util.deadzone(
-                            self.axis_map['left_stick_x'],
-                            self.axis_map['left_stick_y']
+                            self.axis_map[Consts.AXIS['LEFT_STICK_X']],
+                            self.axis_map[Consts.AXIS['LEFT_STICK_Y']]
                             )
                         right_deadzone = self.gamepad_util.deadzone(
-                            self.axis_map['right_stick_x'],
-                            self.axis_map['right_stick_y']
+                            self.axis_map[Consts.AXIS['RIGHT_STICK_X']],
+                            self.axis_map[Consts.AXIS['RIGHT_STICK_Y']]
                             )
 
                         # # Read triggers axis values
@@ -126,6 +123,12 @@ class Events():
                         print(f'\tleft joystick_Y:\t {left_deadzone[1]:.3f}')
                         print(f'\tright joystick_X:\t {right_deadzone[0]:.3f}')
                         print(f'\tright joystick_Y:\t {right_deadzone[1]:.3f}')
+
+                        # if event.caxis.axis == sdl2.SDL_CONTROLLER_AXIS_TRIGGERLEFT:
+                        #     print("Left trigger value:", event.caxis.value)
+
+                        # if event.caxis.axis == sdl2.SDL_CONTROLLER_AXIS_TRIGGERRIGHT:
+                        #     print("Right trigger value:", event.caxis.value)
 
                         # # Print the bumper values
                         # print(f'Left Bumper: {left_trigger:.3f}')
